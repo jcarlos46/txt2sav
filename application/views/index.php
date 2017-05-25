@@ -1,5 +1,5 @@
 <h1>txt2sav</h1>
-<form action="api/new" method="post">
+<form action="api/newp" method="post">
     <textarea name="content"></textarea>
     <br/>
     <br/>

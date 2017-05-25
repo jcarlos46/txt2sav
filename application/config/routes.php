@@ -51,9 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['edit/(:any)'] = 'home/edit/$1';
 $route['fork/(:any)'] = 'home/fork/$1';
-$route['doNew'] = 'home/doNew';
-$route['doEdit'] = 'home/doEdit';
-$route['doFork'] = 'home/doFork';
 $route['(:any)'] = 'home/content/$1';
 
 $route['default_controller'] = 'home';
