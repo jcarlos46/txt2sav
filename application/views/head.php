@@ -1,5 +1,5 @@
 <nav>
-    <ul>
+    <ul class="menu">
         <li><a href="fork/<?php echo $md5 ?>">[fork]</a></li>
         <li><a href="#">[log]</a></li>
         <li><a href="edit/<?php echo $md5 ?>">[edit]</a></li>

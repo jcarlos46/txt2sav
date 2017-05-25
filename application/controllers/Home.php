@@ -12,6 +12,7 @@ class Home extends CI_Controller
 
     public function index()
     {
+        $this->load->view('header');
         $this->load->view('index');
     }
 
@@ -21,6 +22,7 @@ class Home extends CI_Controller
 
         $data['md5'] = $md5;
         $data['content'] = $this->content;
+        $this->load->view('header');
         $this->load->view('head', $data);
         $this->load->view('content', $data);
     }
@@ -33,9 +35,10 @@ class Home extends CI_Controller
         OR !$this->validEdit($this->input->post('pass'))) {
             redirect($md5);
         }*/
-        $data['action'] = 'doEdit';
+        $data['action'] = 'api/edit';
         $data['md5'] = $md5;
         $data['content'] = $this->content; 
+        $this->load->view('header');
         $this->load->view('edit', $data);
     }
 
@@ -43,9 +46,10 @@ class Home extends CI_Controller
     {
         // if(!$this->exists($md5)) redirect('/');
 
-        $data['action'] = 'doFork';
+        $data['action'] = 'api/fork';
         $data['md5'] = $md5;
         $data['content'] = $this->content; 
+        $this->load->view('header');
         $this->load->view('edit', $data);
     }
 

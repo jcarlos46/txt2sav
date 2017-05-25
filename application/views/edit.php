@@ -1,5 +1,8 @@
+<h1>txt2sav</h1>
 <form action="/<?php echo $action ?>" method="post">
     <input type="hidden" value="<?php echo $md5 ?>">
     <textarea name="content"><?php echo $content ?></textarea>
-    <input type="submit" value="Ok"/>
+    <br/>
+    <br/>
+    <input type="submit" value="Publish"/>
 </form>
