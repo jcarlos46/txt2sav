@@ -27,7 +27,8 @@ class Api extends CI_Controller
             redirect($content['callback']);
         }
 
-        echo $this->message("SUCCESS。 ".anchor(base_url($content['md5'])));
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        $this->json($content_final);
     }
 
     public function edit()
@@ -53,7 +54,8 @@ class Api extends CI_Controller
             redirect($content['callback']);
         }
 
-        echo $this->message("SUCCESS。 ".anchor(base_url($content['md5'])));
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        $this->json($content_final);
     }
 
     public function fork()
@@ -81,7 +83,15 @@ class Api extends CI_Controller
             redirect($content['callback']);
         }
 
-        echo $this->message("SUCCESS。 ".anchor(base_url($content['md5'])));
+
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        $this->json($content_final);
+    }
+
+    private function json($object)
+    {
+        header('Content-type:application/json');
+        echo json_encode($object);
     }
 
     private function genPass($seed, $len)

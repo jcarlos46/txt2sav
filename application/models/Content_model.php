@@ -20,4 +20,12 @@ class Content_model extends CI_Model
         $query = $this->db->get($this->tableName);
         return $query->result_array();
     }
+
+    public function getLastByWhere($where)
+    {
+        $this->db->where($where);
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get($this->tableName);
+        return $query->row();
+    }
 }
