@@ -13,7 +13,11 @@ class Api extends CI_Controller
     public function newp()
     {
         $content = $this->input->post();
-        $callback = (isset($content['callback'])) ? $content['callback'] : null;
+        $callback = null;
+        if(isset($content['callback'])) { 
+            $callback = $content['callback'];
+            unset($content['callback']);
+        }
 
         $content['id'] = null;
         $content['id_parent'] = null;
@@ -21,10 +25,10 @@ class Api extends CI_Controller
         $content['password'] = $this->genPass($content['md5'], 10);
         $content['create_at'] = date('Y/m/d H:i:s');
 
-        $id = $this->content_model->insert($content);
+        $this->content_model->insert($content);
 
         if (!is_null($callback)) {
-            redirect($content['callback']);
+            redirect($callback.'?token='.$content['md5']);
         }
 
         $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
@@ -36,7 +40,12 @@ class Api extends CI_Controller
         $content = $this->input->post();
         $md5 = $content['md5'];
         unset($content['id_parent']);
-        $callback = (isset($content['callback'])) ? $content['callback'] : null;
+
+        $callback = null;
+        if(isset($content['callback'])) { 
+            $callback = $content['callback'];
+            unset($content['callback']);
+        }
 
         $content_db = $this->content_model->getWhere("md5='".$md5."'");
         if(count($content_db) == 0) redirect('/');
@@ -48,10 +57,10 @@ class Api extends CI_Controller
         $content['content'] = $content['content'];
         $content['create_at'] = date('Y/m/d H:i:s');
 
-        $id = $this->content_model->insert($content);
+        $this->content_model->insert($content);
 
         if (!is_null($callback)) {
-            redirect($content['callback']);
+            redirect($callback.'?token='.$content['md5']);
         }
 
         $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
@@ -62,7 +71,12 @@ class Api extends CI_Controller
     {
         $content = $this->input->post();
         $id_parent = $content['id_parent'];
-        $callback = (isset($content['callback'])) ? $content['callback'] : null;
+
+        $callback = null;
+        if(isset($content['callback'])) { 
+            $callback = $content['callback'];
+            unset($content['callback']);
+        }
 
         $content_db = $this->content_model->getWhere("id='".$id_parent."'");
         if(count($content_db) == 0) redirect('/');
@@ -77,12 +91,11 @@ class Api extends CI_Controller
         $content['password'] = $this->genPass($content['md5'], 10);
         $content['create_at'] = date('Y/m/d H:i:s');
 
-        $id = $this->content_model->insert($content);
+        $this->content_model->insert($content);
 
         if (!is_null($callback)) {
-            redirect($content['callback']);
+            redirect($callback.'?token='.$content['md5']);
         }
-
 
         $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
         $this->json($content_final);

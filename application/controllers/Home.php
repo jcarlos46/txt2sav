@@ -13,8 +13,10 @@ class Home extends CI_Controller
 
     public function index()
     {
+        $data = array();
+        $data['callback'] = base_url('redirect');
         $this->load->view('header');
-        $this->load->view('index');
+        $this->load->view('index', $data);
     }
 
     public function content($md5)
@@ -25,6 +27,7 @@ class Home extends CI_Controller
 
         $data['md5'] = $content['md5'];
         $data['content'] = $content['content'];
+
         $this->load->view('header');
         $this->load->view('head', $data);
         $this->load->view('content', $data);
@@ -40,6 +43,7 @@ class Home extends CI_Controller
         $data['md5'] = $md5;
         $data['content'] = $content['content']; 
         $data['id_parent'] = $content['id_parent']; 
+        $data['callback'] = base_url('redirect');
 
         $this->load->view('header');
         $this->load->view('edit', $data);
@@ -55,9 +59,19 @@ class Home extends CI_Controller
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
         $data['content'] = $content['content'];
+        $data['callback'] = base_url('redirect');
 
         $this->load->view('header');
         $this->load->view('edit', $data);
+    }
+
+    public function redirect()
+    {
+        if($md5 = $this->input->get('token')) {
+            redirect(base_url($md5));
+        }
+
+        redirect('/');
     }
 
     public function validEdit($pass)
