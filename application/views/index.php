@@ -1,6 +1,5 @@
 <h1>txt2sav</h1>
-<form action="api/newp" method="post">
-    <input type="hidden" name="callback" value="<?php echo $callback ?>">
+<form action="/newp" method="post">
     <textarea name="content"></textarea>
     <br/>
     <br/>

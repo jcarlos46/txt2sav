@@ -13,7 +13,6 @@ class Api extends CI_Controller
     public function newp()
     {
         $content = $this->input->post();
-        var_dump($_POST);
         $callback = null;
         if(isset($content['callback'])) { 
             $callback = $content['callback'];
