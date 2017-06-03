@@ -122,7 +122,6 @@ class Api extends CI_Controller
     {
         $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
         unset($content_final->password);
-        $content_final->id = null;
         $content_final->id_parent = null;
         $this->json($content_final);
     } 
