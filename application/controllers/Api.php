@@ -41,7 +41,7 @@ class Api extends CI_Controller
         // Verificando se existe conteudo buscado
         $where = "md5='{$md5}'";
         $content_exists = $this->content_model->getWhere($where);
-        if(count($content_exists) == 0) redirect('/');
+        if(count($content_exists) == 0) $this->error('Not Found');
         $content_exists = end($content_exists);
 
         // Verificando se senha é válida
@@ -70,7 +70,7 @@ class Api extends CI_Controller
         $id_parent = $content['id_parent'];
 
         $content_db = $this->content_model->getWhere("id='".$id_parent."'");
-        if(count($content_db) == 0) redirect('/');
+        if(count($content_db) == 0) $this->error('Not Found');
         $content_db = end($content_db);
 
         $content = array_merge($content_db, $content);
@@ -96,7 +96,7 @@ class Api extends CI_Controller
             $where .= " AND create_at like '%{$datetime}%'";
         }
         $content_final = $this->content_model->getLastByWhere($where);
-        if(count($content_final) == 0) redirect('/');
+        if(count($content_final) == 0) $this->error('Not Found');
         unset($content_final->password);
         $content_final->id_parent = null;
         $this->json($content_final);
@@ -106,7 +106,7 @@ class Api extends CI_Controller
     {
         $where = "md5 = '{$md5}'";
         $contents = $this->content_model->getWhere($where);
-        if(count($contents) == 0) redirect('/');
+        if(count($contents) == 0) $this->error('Not Found');
 
         $return = array();
         foreach($contents as $content) {
@@ -121,7 +121,7 @@ class Api extends CI_Controller
     {
         $where = "id_parent = '{$id}'";
         $contents = $this->content_model->getChildren($where);
-        if(count($contents) == 0) redirect('/');
+        if(count($contents) == 0) $this->error('Not Found');
 
         $return = array();
         foreach($contents as $content) {
@@ -136,7 +136,7 @@ class Api extends CI_Controller
     {
         $where = "id = '{$id}'";
         $content = $this->content_model->getLastByWhere($where);
-        if(count($content) == 0) redirect('/');
+        if(count($content) == 0) $this->error('Not Found');
 
         unset($content->password);
 
