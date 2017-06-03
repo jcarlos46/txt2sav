@@ -49,7 +49,6 @@ class Api extends CI_Controller
         $content_db = $this->content_model->getWhere($where);
         if(count($content_db) == 0) {
             $this->error('Password is wrog');
-            die;
         }
         $content_db = end($content_db);
 
@@ -89,9 +88,15 @@ class Api extends CI_Controller
         $this->json($content_final);
     }
 
-    public function get($md5)
+    public function get($md5, $datetime = false)
     {
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
+        $where = "md5 = '{$md5}'";
+        if($datetime) {
+            $datetime = str_replace('%20', ' ', $datetime);
+            $where .= " AND create_at like '%{$datetime}%'";
+        }
+        $content_final = $this->content_model->getLastByWhere($where);
+        if(count($content_final) == 0) redirect('/');
         unset($content_final->password);
         $content_final->id_parent = null;
         $this->json($content_final);
@@ -111,8 +116,6 @@ class Api extends CI_Controller
 
     private function error($msg)
     {
-        $this->json(
-            array('error' => $msg)
-        );
+        $this->json(array('error' => $msg)); die;
     }
 }
