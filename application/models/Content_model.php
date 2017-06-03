@@ -28,4 +28,13 @@ class Content_model extends CI_Model
         $query = $this->db->get($this->tableName);
         return $query->row();
     }
+
+    public function getChildren($where)
+    {
+        $this->db->where($where);
+        $this->db->group_by('md5');
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get($this->tableName);
+        return $query->result_array();
+    }
 }

@@ -102,6 +102,47 @@ class Api extends CI_Controller
         $this->json($content_final);
     } 
 
+    public function log($md5)
+    {
+        $where = "md5 = '{$md5}'";
+        $contents = $this->content_model->getWhere($where);
+        if(count($contents) == 0) redirect('/');
+
+        $return = array();
+        foreach($contents as $content) {
+            unset($content['password']);
+            $return[] = $content;
+        }
+
+        $this->json($return);
+    }
+
+    public function children($id)
+    {
+        $where = "id_parent = '{$id}'";
+        $contents = $this->content_model->getChildren($where);
+        if(count($contents) == 0) redirect('/');
+
+        $return = array();
+        foreach($contents as $content) {
+            unset($content['password']);
+            $return[] = $content;
+        }
+
+        $this->json($return);
+    }
+
+    public function parent($id)
+    {
+        $where = "id = '{$id}'";
+        $content = $this->content_model->getLastByWhere($where);
+        if(count($content) == 0) redirect('/');
+
+        unset($content->password);
+
+        $this->json($content);
+    }
+
     private function json($object)
     {
         header('Content-type:application/json');
