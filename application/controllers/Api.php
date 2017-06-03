@@ -13,6 +13,7 @@ class Api extends CI_Controller
     public function newp()
     {
         $content = $this->input->post();
+        var_dump($_POST);
         $callback = null;
         if(isset($content['callback'])) { 
             $callback = $content['callback'];
@@ -121,6 +122,7 @@ class Api extends CI_Controller
     public function get($md5)
     {
         $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
+        unset($content_final['password']);
         $this->json($content_final);
     } 
 
