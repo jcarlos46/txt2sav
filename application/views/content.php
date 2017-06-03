@@ -1,4 +1,8 @@
+<div style="display: block;clear: both;margin-bototm: 20px;">
+<span class="code"><?php echo $this->session->flashdata('password'); ?></span>
+<span class="create_at"><?php echo $create_at ?></span>
+<div style="clear: both"></div>
+</div>
 <article>
-    <b><?php echo $this->session->flashdata('password'); ?></b><br><br>
     <?php echo $content ?>
 </article>

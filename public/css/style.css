@@ -22,3 +22,13 @@ a {
     color: #0000ff;
     text-decoration: none;
 }
+
+.code {
+    font-weight: bold;
+    float: left;
+}
+
+.create_at {
+    color: silver;
+    float: right;
+}

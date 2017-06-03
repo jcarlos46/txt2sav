@@ -31,6 +31,7 @@ class Home extends CI_Controller
         $content = $this->api_model->get($md5.'/'.$datetime);
 
         $data['md5'] = $content['md5'];
+        $data['create_at'] = $content['create_at'];
         $data['content'] = nl2br(htmlentities($content['content']));
 
         $this->load->view('header');
