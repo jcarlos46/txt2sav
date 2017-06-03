@@ -66,7 +66,6 @@ class Home extends CI_Controller
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
         $data['content'] = $content['content'];
-        $data['callback'] = base_url('redirect');
 
         $this->load->view('header');
         $this->load->view('edit', $data);
