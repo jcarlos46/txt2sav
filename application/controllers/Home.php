@@ -8,7 +8,6 @@ class Home extends CI_Controller
         parent::__construct();
         $this->load->helper(array('url'));
         $this->load->model('content_model');
-        $this->content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet, magna non malesuada feugiat, dolor purus suscipit nisi, et lacinia tellus ex non elit. Mauris pellentesque sodales dolor, ut scelerisque lacus imperdiet vel. Sed auctor libero in elementum condimentum. Sed ut placerat orci, id varius diam. Proin dignissim tortor ut scelerisque ornare. Nullam et massa eget lectus convallis tempus. Sed pulvinar nunc ut lacinia luctus. Nullam mollis sit amet leo in consectetur. Sed nec purus est. Pellentesque vitae quam sollicitudin, commodo est et, faucibus ex. Ut dignissim maximus porttitor. Nulla interdum ligula faucibus dui porta dignissim.";
     }
 
     public function index()
@@ -26,7 +25,7 @@ class Home extends CI_Controller
         $content = end($content);
 
         $data['md5'] = $content['md5'];
-        $data['content'] = $content['content'];
+        $data['content'] = nl2br(htmlentities($content['content']));
 
         $this->load->view('header');
         $this->load->view('head', $data);
