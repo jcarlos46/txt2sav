@@ -22,6 +22,7 @@ class Home extends CI_Controller
     {
         $post = $this->input->post();
         $content = $this->api_model->insert($post);
+        $this->session->set_flashdata('password', 'Edit code: ' . $content['password']);
         redirect('/'.$content['md5']);
     }
 
@@ -41,14 +42,20 @@ class Home extends CI_Controller
     {
         $content = $this->api_model->getByMd5($md5);
 
-        $data['action'] = 'api/edit';
+        $data['action'] = 'editp';
         $data['md5'] = $md5;
         $data['content'] = $content['content']; 
         $data['id_parent'] = $content['id_parent']; 
-        $data['callback'] = base_url('redirect');
 
         $this->load->view('header');
         $this->load->view('edit', $data);
+    }
+
+    public function editp()
+    {
+        $post = $this->input->post();
+        $content = $this->api_model->update($post);
+        redirect('/'.$content['md5']);
     }
 
     public function fork($md5)

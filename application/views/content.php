@@ -1,4 +1,4 @@
 <article>
-    <?php echo $this->session->flashdata('password'); ?>
+    <b><?php echo $this->session->flashdata('password'); ?></b><br><br>
     <?php echo $content ?>
 </article>
