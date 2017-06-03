@@ -101,6 +101,12 @@ class Api extends CI_Controller
         $this->json($content_final);
     }
 
+    public function get($md5)
+    {
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
+        $this->json($content_final);
+    } 
+
     private function json($object)
     {
         header('Content-type:application/json');
