@@ -7,4 +7,7 @@
     <br/>
     <br/>
     <input type="submit" value="Publish"/>
+    <?php if($action == 'api/edit'): ?>
+    Edit Code: <input type="text" name="password" />
+    <?php endif; ?>
 </form>

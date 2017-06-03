@@ -41,14 +41,31 @@ class Api extends CI_Controller
         $md5 = $content['md5'];
         unset($content['id_parent']);
 
+        if(!isset($content['password']) OR empty($content['password'])) {
+            $this->error('Password is required'); die;
+        }
+        $password = $content['password'];
+        unset($content['password']);
+
         $callback = null;
         if(isset($content['callback'])) { 
             $callback = $content['callback'];
             unset($content['callback']);
         }
 
-        $content_db = $this->content_model->getWhere("md5='".$md5."'");
-        if(count($content_db) == 0) redirect('/');
+        // Verificando se existe conteudo buscado
+        $where = "md5='{$md5}'";
+        $content_exists = $this->content_model->getWhere($where);
+        if(count($content_exists) == 0) redirect('/');
+        $content_exists = end($content_exists);
+
+        // Verificando se senha é válida
+        $where = "md5='{$md5}' AND password='{$password}'";
+        $content_db = $this->content_model->getWhere($where);
+        if(count($content_db) == 0) {
+            $this->error('Password is wrog');
+            die;
+        }
         $content_db = end($content_db);
 
         $content = array_merge($content_db, $content);
@@ -119,11 +136,10 @@ class Api extends CI_Controller
         return $pass;
     }
 
-    private function message($msg)
+    private function error($msg)
     {
-        $return = "<pre>";
-        $return .= $msg;
-        $return .= "</pre>";
-        return $return;
+        $this->json(
+            array('error' => $msg)
+        );
     }
 }
