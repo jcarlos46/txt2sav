@@ -26,9 +26,9 @@ class Home extends CI_Controller
         redirect('/'.$content['md5']);
     }
 
-    public function content($md5)
+    public function content($md5, $datetime = '')
     {
-        $content = $this->api_model->getByMd5($md5);
+        $content = $this->api_model->get($md5.'/'.$datetime);
 
         $data['md5'] = $content['md5'];
         $data['content'] = nl2br(htmlentities($content['content']));
@@ -40,7 +40,7 @@ class Home extends CI_Controller
 
     public function edit($md5)
     {
-        $content = $this->api_model->getByMd5($md5);
+        $content = $this->api_model->get($md5);
 
         $data['action'] = 'editp';
         $data['md5'] = $md5;
@@ -60,7 +60,7 @@ class Home extends CI_Controller
 
     public function fork($md5)
     {
-        $content = $this->api_model->getByMd5($md5);
+        $content = $this->api_model->get($md5);
 
         $data['action'] = 'forkp';
         $data['md5'] = $md5;
@@ -86,10 +86,5 @@ class Home extends CI_Controller
         }
 
         redirect('/');
-    }
-
-    public function validEdit($pass)
-    {
-        return true;
     }
 }

@@ -56,6 +56,7 @@ $route['forkp'] = 'home/forkp';
 $route['edit/(:any)'] = 'home/edit/$1';
 $route['fork/(:any)'] = 'home/fork/$1';
 $route['(:any)'] = 'home/content/$1';
+$route['(:any)/(:any)'] = 'home/content/$1/$2';
 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';

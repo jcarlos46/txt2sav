@@ -33,7 +33,7 @@ class Api_model extends CI_Model
         return $content;
     }
 
-    public function getByMd5($md5)
+    public function get($md5)
     {
         $response = $this->client->get($this->api.'get/'.$md5);
         $string = (string) $response->getBody();
