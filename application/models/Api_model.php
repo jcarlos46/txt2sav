@@ -11,7 +11,8 @@ class Api_model extends CI_Model
     {
         $response = $this->client->post('http://txt2sav.herokuapp.com/api/newp', array('form_params' => $post));
         $string = (string) $response->getBody();
-        return $content = (array) json_decode($string);
+        $content = (array) json_decode($string);
+        return $content;
     }
 
     public function getByMd5($md5)

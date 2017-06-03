@@ -7,22 +7,27 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $this->load->helper(array('url'));
-        $this->load->model('content_model');
+        $this->load->library(array('session'));
+        $this->load->model('api_model');
     }
 
     public function index()
     {
         $data = array();
-        $data['callback'] = base_url('redirect');
         $this->load->view('header');
         $this->load->view('index', $data);
     }
 
+    public function newp()
+    {
+        $post = $this->input->post();
+        $content = $this->api_model->insert($post);
+        redirect('/'.$content['md5']);
+    }
+
     public function content($md5)
     {
-        $content = $this->content_model->getWhere("md5='".$md5."'");
-        if(count($content) == 0) redirect('/');
-        $content = end($content);
+        $content = $this->api_model->getByMd5($md5);
 
         $data['md5'] = $content['md5'];
         $data['content'] = nl2br(htmlentities($content['content']));
@@ -34,9 +39,7 @@ class Home extends CI_Controller
 
     public function edit($md5)
     {
-        $content = $this->content_model->getWhere("md5='".$md5."'");
-        if(count($content) == 0) redirect('/');
-        $content = end($content);
+        $content = $this->api_model->getByMd5($md5);
 
         $data['action'] = 'api/edit';
         $data['md5'] = $md5;
@@ -50,9 +53,7 @@ class Home extends CI_Controller
 
     public function fork($md5)
     {
-        $content = $this->content_model->getWhere("md5='".$md5."'");
-        if(count($content) == 0) redirect('/');
-        $content = end($content);
+        $content = $this->api_model->getByMd5($md5);
 
         $data['action'] = 'api/fork';
         $data['md5'] = $md5;
