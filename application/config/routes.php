@@ -55,6 +55,7 @@ $route['editp'] = 'home/editp';
 $route['forkp'] = 'home/forkp';
 $route['edit/(:any)'] = 'home/edit/$1';
 $route['fork/(:any)'] = 'home/fork/$1';
+$route['fork/(:any)/(:any)'] = 'home/fork/$1/$2';
 $route['(:any)'] = 'home/content/$1';
 $route['(:any)/(:any)'] = 'home/content/$1/$2';
 

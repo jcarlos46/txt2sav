@@ -26,9 +26,9 @@ class Home extends CI_Controller
         redirect('/'.$content['md5']);
     }
 
-    public function content($md5, $datetime = '')
+    public function content($md5, $create_at = '')
     {
-        $content = $this->api_model->get($md5.'/'.$datetime);
+        $content = $this->api_model->get($md5.'/'.$create_at);
 
         $data['md5'] = $content['md5'];
         $data['create_at'] = $content['create_at'];
@@ -59,9 +59,9 @@ class Home extends CI_Controller
         redirect('/'.$content['md5']);
     }
 
-    public function fork($md5)
+    public function fork($md5, $create_at = '')
     {
-        $content = $this->api_model->get($md5);
+        $content = $this->api_model->get($md5.'/'.$create_at);
 
         $data['action'] = 'forkp';
         $data['md5'] = $md5;
