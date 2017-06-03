@@ -62,7 +62,7 @@ class Home extends CI_Controller
     {
         $content = $this->api_model->getByMd5($md5);
 
-        $data['action'] = 'api/fork';
+        $data['action'] = 'forkp';
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
         $data['content'] = $content['content'];
@@ -70,6 +70,14 @@ class Home extends CI_Controller
 
         $this->load->view('header');
         $this->load->view('edit', $data);
+    }
+
+    public function forkp()
+    {
+        $post = $this->input->post();
+        $content = $this->api_model->fork($post);
+        $this->session->set_flashdata('password', 'Edit code: ' . $content['password']);
+        redirect('/'.$content['md5']);
     }
 
     public function redirect()

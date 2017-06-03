@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['redirect'] = 'home/redirect';
 $route['newp'] = 'home/newp';
 $route['editp'] = 'home/editp';
+$route['forkp'] = 'home/forkp';
 $route['edit/(:any)'] = 'home/edit/$1';
 $route['fork/(:any)'] = 'home/fork/$1';
 $route['(:any)'] = 'home/content/$1';
