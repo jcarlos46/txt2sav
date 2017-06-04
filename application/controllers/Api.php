@@ -13,11 +13,12 @@ class Api extends CI_Controller
     public function newp()
     {
         $content = $this->input->post();
+        $password = trim($this->input->post('password'));
 
         $content['id'] = null;
         $content['id_parent'] = null;
         $content['md5'] = md5(microtime(true));
-        $content['password'] = $this->genPass($content['md5'], 10);
+        $content['password'] = (is_null($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
         $this->content_model->insert($content);
@@ -67,6 +68,7 @@ class Api extends CI_Controller
     public function fork()
     {
         $content = $this->input->post();
+        $password = trim($this->input->post('password'));
         $id_parent = $content['id_parent'];
 
         $content_db = $this->content_model->getWhere("id='".$id_parent."'");
@@ -79,7 +81,7 @@ class Api extends CI_Controller
         $content['id_parent'] = $id_parent;
         $content['content'] = $content['content'];
         $content['md5'] = md5(microtime(true));
-        $content['password'] = $this->genPass($content['md5'], 10);
+        $content['password'] = (is_null($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
         $this->content_model->insert($content);

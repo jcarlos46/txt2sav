@@ -15,6 +15,7 @@ class Home extends CI_Controller
     public function index()
     {
         $data = array('i18n' => $this->i18n($this->lang));
+        $data['password'] = $this->genPass(microtime(),10);
         $this->load->view('header');
         $this->load->view('index', $data);
     }
@@ -22,6 +23,7 @@ class Home extends CI_Controller
     public function newp()
     {
         $i18n = $this->i18n($this->lang);
+        if(empty(trim($this->input->post('content')))) redirect('/');
 
         $post = $this->input->post();
         $content = $this->api_model->insert($post);
@@ -47,8 +49,10 @@ class Home extends CI_Controller
     public function edit($md5)
     {
         $content = $this->api_model->get($md5);
+        $i18n = $this->i18n($this->lang);
 
-        $data = array('i18n' => $this->i18n($this->lang));
+        $data = array('i18n' => $i18n);
+        $data['pagename'] = $i18n['EDIT'];
         $data['action'] = 'editp';
         $data['md5'] = $md5;
         $data['content'] = $content['content']; 
@@ -74,6 +78,7 @@ class Home extends CI_Controller
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
         $data['content'] = $content['content'];
+        $data['password'] = $this->genPass(microtime(),10);
 
         $this->load->view('header');
         $this->load->view('edit', $data);
@@ -118,7 +123,7 @@ class Home extends CI_Controller
         redirect('/');
     }
 
-    public function i18n ($lang)
+    private function i18n ($lang)
     {
         $i18n = array(
             'pt-br' => array(
@@ -132,5 +137,11 @@ class Home extends CI_Controller
         );
 
         return $i18n[$lang];
+    }
+
+    private function genPass($seed, $len)
+    {
+        $pass = substr(md5($seed), 0, $len);
+        return $pass;
     }
 }
