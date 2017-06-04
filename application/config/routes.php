@@ -49,6 +49,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+$route['api/newp'] = 'api/newp';
+$route['api/fork'] = 'api/edit';
+$route['api/fork'] = 'api/fork';
+
 $route['redirect'] = 'home/redirect';
 $route['newp'] = 'home/newp';
 $route['editp'] = 'home/editp';
@@ -56,6 +60,8 @@ $route['forkp'] = 'home/forkp';
 $route['edit/(:any)'] = 'home/edit/$1';
 $route['fork/(:any)'] = 'home/fork/$1';
 $route['fork/(:any)/(:any)'] = 'home/fork/$1/$2';
+$route['log/(:any)'] = 'home/log/$1';
+$route['log/(:any)/(:any)'] = 'home/log/$1/$2';
 $route['(:any)'] = 'home/content/$1';
 $route['(:any)/(:any)'] = 'home/content/$1/$2';
 
