@@ -10,7 +10,7 @@
 <?php endif; ?>
     <ul class="outer-list inner-list <?php if (empty($parent)) echo "no-parent" ?>">
         <?php foreach($contents as $k => $c): ?>
-        <li class=<?php if($content['id'] == $c->id AND !empty($children)) echo "has-children" ?> >
+        <li class="<?php if($content['id'] == $c->id) echo "current" ?> <?php if($content['id'] == $c->id AND !empty($children)) echo "has-children" ?>" >
             <a href="/<?php echo $c->md5 ?>/<?php echo $c->create_at ?>">
             <?php echo $c->md5 ?>
             <?php echo $c->create_at ?>
