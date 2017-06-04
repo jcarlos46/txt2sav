@@ -9,25 +9,30 @@ class Home extends CI_Controller
         $this->load->helper(array('url'));
         $this->load->library(array('session'));
         $this->load->model('api_model');
+        $this->lang = 'pt-br';
     }
 
     public function index()
     {
-        $data = array();
+        $data = array('i18n' => $this->i18n($this->lang));
         $this->load->view('header');
         $this->load->view('index', $data);
     }
 
     public function newp()
     {
+        $i18n = $this->i18n($this->lang);
+
         $post = $this->input->post();
         $content = $this->api_model->insert($post);
-        $this->session->set_flashdata('password', 'Edit code: ' . $content['password']);
+        $this->session->set_flashdata('password', $i18n['CODE'].': '.$content['password']);
+
         redirect('/'.$content['md5']);
     }
 
     public function content($md5, $create_at = '')
     {
+        $data = array('i18n' => $this->i18n($this->lang));
         $content = $this->api_model->get($md5.'/'.$create_at);
 
         $data['md5'] = $content['md5'];
@@ -43,6 +48,7 @@ class Home extends CI_Controller
     {
         $content = $this->api_model->get($md5);
 
+        $data = array('i18n' => $this->i18n($this->lang));
         $data['action'] = 'editp';
         $data['md5'] = $md5;
         $data['content'] = $content['content']; 
@@ -63,6 +69,7 @@ class Home extends CI_Controller
     {
         $content = $this->api_model->get($md5.'/'.$create_at);
 
+        $data = array('i18n' => $this->i18n($this->lang));
         $data['action'] = 'forkp';
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
@@ -74,9 +81,10 @@ class Home extends CI_Controller
 
     public function forkp()
     {
+        $i18n = $this->i18n($this->lang);
         $post = $this->input->post();
         $content = $this->api_model->fork($post);
-        $this->session->set_flashdata('password', 'Edit code: ' . $content['password']);
+        $this->session->set_flashdata('password', $i18n['CODE'].': '.$content['password']);
         redirect('/'.$content['md5']);
     }
 
@@ -88,12 +96,16 @@ class Home extends CI_Controller
             $this->api_model->id($content['id_parent']) : array();
         $children = $this->api_model->children($content['id']);
 
+        $data = array('i18n' => $this->i18n($this->lang));
         $data['content'] = $content;
+        $data['md5'] = $content['md5'];
+        $data['create_at'] = $content['create_at'];
         $data['contents'] = $contents;
         $data['parent'] = $parent;
         $data['children'] = (!isset($children['error'])) ? $children : array();
 
         $this->load->view('header');
+        $this->load->view('head', $data);
         $this->load->view('log', $data);
     }
 
@@ -104,5 +116,21 @@ class Home extends CI_Controller
         }
 
         redirect('/');
+    }
+
+    public function i18n ($lang)
+    {
+        $i18n = array(
+            'pt-br' => array(
+                'PUBLISH' => 'Publicar',
+                'HOME' => 'página inicial',
+                'FORK' => 'clonar',
+                'LOG' => 'histórico',
+                'EDIT' => 'editar',
+                'CODE' => 'Código de Edição'
+            )
+        );
+
+        return $i18n[$lang];
     }
 }

@@ -3,5 +3,5 @@
     <textarea name="content"></textarea>
     <br/>
     <br/>
-    <input type="submit" value="Publish"/>
+    <input type="submit" value="<?php echo $i18n['PUBLISH'] ?>"/>
 </form>

@@ -5,8 +5,8 @@
     <textarea name="content"><?php echo $content ?></textarea>
     <br/>
     <br/>
-    <input type="submit" value="Publish"/>
+    <input type="submit" value="<?php echo $i18n['PUBLISH'] ?>"/>
     <?php if($action == 'editp'): ?>
-    Edit Code: <input type="text" name="password" />
+    <input type="text" name="password" placeholder="<?php echo $i18n['CODE']?>" />
     <?php endif; ?>
 </form>

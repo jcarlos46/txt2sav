@@ -93,6 +93,10 @@ ul li {
   list-style-image: url('/public/css/Small-dark-green-circle-fill.png');
 }
 
+.current > a{
+  font-weight: bold;
+}
+
 .inner-list .has-children:after {
   position: absolute;
   height: calc(100% - 13px);
