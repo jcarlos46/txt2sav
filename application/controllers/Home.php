@@ -14,7 +14,10 @@ class Home extends CI_Controller
 
     public function index()
     {
-        $data = array('i18n' => $this->i18n($this->lang));
+        $i18n = $this->i18n($this->lang);
+
+        $data = array('i18n' => $i18n);
+        $data['pagename'] = $i18n['HOME'];
         $data['password'] = $this->genPass(microtime(),10);
         $this->load->view('header');
         $this->load->view('index', $data);
@@ -34,9 +37,11 @@ class Home extends CI_Controller
 
     public function content($md5, $create_at = '')
     {
-        $data = array('i18n' => $this->i18n($this->lang));
         $content = $this->api_model->get($md5.'/'.$create_at);
+        $i18n = $this->i18n($this->lang);
 
+        $data = array('i18n' => $i18n);
+        $data['pagename'] = $content['md5'];
         $data['md5'] = $content['md5'];
         $data['create_at'] = $content['create_at'];
         $data['content'] = nl2br(htmlentities($content['content']));
@@ -73,7 +78,10 @@ class Home extends CI_Controller
     {
         $content = $this->api_model->get($md5.'/'.$create_at);
 
-        $data = array('i18n' => $this->i18n($this->lang));
+        $i18n = $this->i18n($this->lang);
+
+        $data = array('i18n' => $i18n);
+        $data['pagename'] = $i18n['FORK'];
         $data['action'] = 'forkp';
         $data['md5'] = $md5;
         $data['id_parent'] = $content['id'];
@@ -101,7 +109,10 @@ class Home extends CI_Controller
             $this->api_model->id($content['id_parent']) : array();
         $children = $this->api_model->children($content['id']);
 
-        $data = array('i18n' => $this->i18n($this->lang));
+        $i18n = $this->i18n($this->lang);
+
+        $data = array('i18n' => $i18n);
+        $data['pagename'] = $i18n['LOG'];
         $data['content'] = $content;
         $data['md5'] = $content['md5'];
         $data['create_at'] = $content['create_at'];

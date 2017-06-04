@@ -1,4 +1,4 @@
-<h1>txt2sav</h1>
+<h1>txt2sav:<?php echo $pagename ?></h1>
 <nav>
     <ul class="menu">
         <li><a href="/">[<?php echo $i18n['HOME']?>]</a></li>

@@ -1,4 +1,4 @@
-<h1>txt2sav</h1>
+<h1>txt2sav:<?php echo $pagename ?></h1>
 <form action="/newp" method="post">
     <textarea name="content"></textarea>
     <br/>
