@@ -26,6 +26,24 @@ class Api_model extends CI_Model
         return $this->json($response);
     }
 
+    public function log($md5)
+    {
+        $response = $this->client->get($this->api.'log/'.$md5);
+        return $this->json($response);
+    }
+
+    public function id($id)
+    {
+        $response = $this->client->get($this->api.'id/'.$id);
+        return $this->json($response);
+    }
+
+    public function children($id)
+    {
+        $response = $this->client->get($this->api.'children/'.$id);
+        return $this->json($response);
+    }
+
     private function json(GuzzleHttp\Psr7\Response $response)
     {
         $string = (string) $response->getBody();

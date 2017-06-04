@@ -80,6 +80,23 @@ class Home extends CI_Controller
         redirect('/'.$content['md5']);
     }
 
+    public function log($md5, $create_at = '')
+    {
+        $content = $this->api_model->get($md5.'/'.$create_at);
+        $contents = $this->api_model->log($md5);
+        $parent = (!is_null($content['id_parent'])) ?
+            $this->api_model->id($content['id_parent']) : array();
+        $children = $this->api_model->children($content['id']);
+
+        $data['content'] = $content;
+        $data['contents'] = $contents;
+        $data['parent'] = $parent;
+        $data['children'] = (!isset($children['error'])) ? $children : array();
+
+        $this->load->view('header');
+        $this->load->view('log', $data);
+    }
+
     public function redirect()
     {
         if($md5 = $this->input->get('token')) {
