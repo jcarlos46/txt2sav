@@ -131,7 +131,7 @@ class Api extends CI_Controller
         $this->json($return);
     }
 
-    public function parent($id)
+    public function id($id)
     {
         $where = "id = '{$id}'";
         $content = $this->content_model->getLastByWhere($where);
