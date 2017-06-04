@@ -18,7 +18,7 @@ class Api extends CI_Controller
         $content['id'] = null;
         $content['id_parent'] = null;
         $content['md5'] = md5(microtime(true));
-        $content['password'] = (is_null($password)) ? $this->genPass($content['md5'], 10) : $password;
+        $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
         $this->content_model->insert($content);
@@ -81,7 +81,7 @@ class Api extends CI_Controller
         $content['id_parent'] = $id_parent;
         $content['content'] = $content['content'];
         $content['md5'] = md5(microtime(true));
-        $content['password'] = (is_null($password)) ? $this->genPass($content['md5'], 10) : $password;
+        $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
         $this->content_model->insert($content);
