@@ -98,7 +98,6 @@ class Api extends CI_Controller
         $content_final = $this->content_model->getLastByWhere($where);
         if(count($content_final) == 0) $this->error('Not Found');
         unset($content_final->password);
-        $content_final->id_parent = null;
         $this->json($content_final);
     } 
 
