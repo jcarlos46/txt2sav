@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['api/newp'] = 'api/newp';
-$route['api/fork'] = 'api/edit';
+$route['api/edit'] = 'api/edit';
 $route['api/fork'] = 'api/fork';
 
 $route['redirect'] = 'home/redirect';
