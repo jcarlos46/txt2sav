@@ -3,6 +3,6 @@
 <span class="create_at"><?php echo $create_at ?></span>
 <div style="clear: both"></div>
 </div>
-<article>
+<article style="word-wrap: break-word;">
     <?php echo $content ?>
 </article>
