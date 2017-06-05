@@ -312,6 +312,6 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
- date_default_timezone_set('America/America/Sao_Paulo');
+ date_default_timezone_set('America/Sao_Paulo');
 require 'vendor/autoload.php';
 require_once BASEPATH.'core/CodeIgniter.php';
