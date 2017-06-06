@@ -17,13 +17,16 @@ class Api extends CI_Controller
 
         $content['id'] = null;
         $content['id_parent'] = null;
-        $content['md5'] = md5(microtime(true));
+        $content['md5'] = '';
         $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
-        $this->content_model->insert($content);
+        // Adicionando código encurtado
+        $last_id = $this->content_model->insert($content);
+        $md5 = $this->shortUrl($last_id);
+        $this->content_model->update($last_id, arrya('md5' => $md5));
 
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
         $this->json($content_final);
     }
 
@@ -80,13 +83,18 @@ class Api extends CI_Controller
         $content['id'] = null;
         $content['id_parent'] = $id_parent;
         $content['content'] = $content['content'];
-        $content['md5'] = md5(microtime(true));
+        $content['md5'] = '';
         $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
         $this->content_model->insert($content);
 
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        // Adicionando código encurtado
+        $last_id = $this->content_model->insert($content);
+        $md5 = $this->shortUrl($last_id);
+        $this->content_model->update($last_id, arrya('md5' => $md5));
+
+        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
         $this->json($content_final);
     }
 
@@ -159,5 +167,15 @@ class Api extends CI_Controller
     private function error($msg)
     {
         $this->json(array('error' => $msg)); die;
+    }
+
+    private function shortUrl($integer, $base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $length = strlen($base);
+        while($integer > $length - 1) {
+            $out = $base[fmod($integer, $length)] . $out;
+            $integer = floor( $integer / $length );
+        }
+        return $base[$integer] . $out;
     }
 }

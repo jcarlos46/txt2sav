@@ -14,6 +14,13 @@ class Content_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function update($id, $fields)
+    {
+        $this->db->where("id = $id");
+        $this->db->update($this->tableName, $fields);
+        return $this->db->insert_id();
+    }
+
     public function getWhere($where)
     {
         $this->db->where($where);
