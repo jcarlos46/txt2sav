@@ -24,7 +24,7 @@ class Api extends CI_Controller
         // Adicionando código encurtado
         $last_id = $this->content_model->insert($content);
         $md5 = $this->shortUrl($last_id);
-        $this->content_model->update($last_id, arrya('md5' => $md5));
+        $this->content_model->update($last_id, array('md5' => $md5));
 
         $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
         $this->json($content_final);
@@ -92,7 +92,7 @@ class Api extends CI_Controller
         // Adicionando código encurtado
         $last_id = $this->content_model->insert($content);
         $md5 = $this->shortUrl($last_id);
-        $this->content_model->update($last_id, arrya('md5' => $md5));
+        $this->content_model->update($last_id, array('md5' => $md5));
 
         $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
         $this->json($content_final);
@@ -169,13 +169,38 @@ class Api extends CI_Controller
         $this->json(array('error' => $msg)); die;
     }
 
-    private function shortUrl($integer, $base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    private function shortUrl($id)
     {
-        $length = strlen($base);
-        while($integer > $length - 1) {
-            $out = $base[fmod($integer, $length)] . $out;
-            $integer = floor( $integer / $length );
+        $chars = '123456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ';
+
+        $id = intval($id);
+        if ($id < 1) {
+            throw new Exception(
+                "The ID is not a valid integer");
         }
-        return $base[$integer] . $out;
+
+        $length = strlen($chars);
+        // make sure length of available characters is at
+        // least a reasonable minimum - there should be at
+        // least 10 characters
+        if ($length < 10) {
+            throw new Exception("Length of chars is too small");
+        }
+
+        $code = "";
+        while ($id > $length - 1) {
+            // determine the value of the next higher character
+            // in the short code should be and prepend
+            $code = $chars[(int)fmod($id, $length)] .
+                $code;
+            // reset $id to remaining value to be converted
+            $id = floor($id / $length);
+        }
+
+        // remaining value of $id is less than the length of
+        // $chars
+        $code = $chars[(int)$id] . $code;
+
+        return $code;
     }
 }
