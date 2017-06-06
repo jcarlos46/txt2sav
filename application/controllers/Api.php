@@ -87,8 +87,6 @@ class Api extends CI_Controller
         $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
         $content['create_at'] = date('Y/m/d H:i:s');
 
-        $this->content_model->insert($content);
-
         // Adicionando código encurtado
         $last_id = $this->content_model->insert($content);
         $md5 = $this->shortUrl($last_id);
@@ -173,26 +171,14 @@ class Api extends CI_Controller
     {
         $chars = '123456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ';
 
-        $id = intval($id);
-        if ($id < 1) {
-            throw new Exception(
-                "The ID is not a valid integer");
-        }
-
         $length = strlen($chars);
-        // make sure length of available characters is at
-        // least a reasonable minimum - there should be at
-        // least 10 characters
-        if ($length < 10) {
-            throw new Exception("Length of chars is too small");
-        }
 
         $code = "";
         while ($id > $length - 1) {
             // determine the value of the next higher character
             // in the short code should be and prepend
-            $code = $chars[(int)fmod($id, $length)] .
-                $code;
+            $code = $chars[(int)fmod($id, $length)] . $code;
+
             // reset $id to remaining value to be converted
             $id = floor($id / $length);
         }
