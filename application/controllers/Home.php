@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller
 {
@@ -44,7 +43,9 @@ class Home extends CI_Controller
         $data['pagename'] = $content['md5'];
         $data['md5'] = $content['md5'];
         $data['create_at'] = $content['create_at'];
-        $data['content'] = nl2br(htmlentities($content['content']));
+        $content = $this->tab2nbsp(htmlentities($content['content']));
+	$content = $this->scp2nbsp($content);
+	$data['content'] = nl2br($content);
 
         $this->load->view('header');
         $this->load->view('head', $data);
@@ -154,5 +155,15 @@ class Home extends CI_Controller
     {
         $pass = substr(md5($seed), 0, $len);
         return $pass;
+    }
+
+    private function tab2nbsp($str)
+    {
+        return str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', $str); 
+    }
+
+    private function scp2nbsp($str)
+    {
+        return str_replace(" ", '&nbsp;', $str); 
     }
 }
