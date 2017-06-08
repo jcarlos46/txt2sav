@@ -12,13 +12,16 @@ class Api extends CI_Controller
 
     public function newp()
     {
-        $content = $this->input->post();
-        $password = trim($this->input->post('password'));
+        $content = $this->getRequest($this->input->post(), file_get_contents('php://input'));
+        if(empty($content)) {
+            $entityBody = file_get_contents('php://input');
+            parse_str($entityBody, $content);
+        }
 
         $content['id'] = null;
         $content['id_parent'] = null;
         $content['md5'] = '';
-        $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
+        $content['password'] = (empty($content['password'])) ? $this->genPass($content['md5'], 10) : trim($content['password']);
         $content['create_at'] = date('Y/m/d H:i:s');
 
         // Adicionando código encurtado
@@ -32,7 +35,8 @@ class Api extends CI_Controller
 
     public function edit()
     {
-        $content = $this->input->post();
+        $content = $this->getRequest($this->input->post(), file_get_contents('php://input'));
+        if(empty($content)) {
         $md5 = $content['md5'];
         unset($content['id_parent']);
 
@@ -70,8 +74,7 @@ class Api extends CI_Controller
 
     public function fork()
     {
-        $content = $this->input->post();
-        $password = trim($this->input->post('password'));
+        $content = $this->getRequest($this->input->post(), file_get_contents('php://input'));
         $id_parent = $content['id_parent'];
 
         $content_db = $this->content_model->getWhere("id='".$id_parent."'");
@@ -84,7 +87,7 @@ class Api extends CI_Controller
         $content['id_parent'] = $id_parent;
         $content['content'] = $content['content'];
         $content['md5'] = '';
-        $content['password'] = (empty($password)) ? $this->genPass($content['md5'], 10) : $password;
+        $content['password'] = (empty($content['password'])) ? $this->genPass($content['md5'], 10) : trim($content['password']);
         $content['create_at'] = date('Y/m/d H:i:s');
 
         // Adicionando código encurtado
@@ -188,5 +191,15 @@ class Api extends CI_Controller
         $code = $chars[(int)$id] . $code;
 
         return $code;
+    }
+
+    private function getRequest($post, $input)
+    {
+        if(!empty($post)) {
+            return $post;
+        }
+
+        parse_str($input, $output);
+        return $output;
     }
 }
