@@ -23,14 +23,14 @@ class Content_model extends CI_Model
 
     public function getWhere($where)
     {
-        $this->db->where($where);
+        $this->db->where($where, NULL, FALSE);
         $query = $this->db->get($this->tableName);
         return $query->result_array();
     }
 
     public function getLastByWhere($where)
     {
-        $this->db->where($where);
+        $this->db->where($where, NULL, FALSE);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get($this->tableName);
         return $query->row();
@@ -38,8 +38,8 @@ class Content_model extends CI_Model
 
     public function getChildren($where)
     {
-        $this->db->where($where);
-        $this->db->group_by('md5');
+        $this->db->where($where, NULL, FALSE);
+        $this->db->group_by('BINARY md5');
         $this->db->order_by('id', 'desc');
         $query = $this->db->get($this->tableName);
         return $query->result_array();

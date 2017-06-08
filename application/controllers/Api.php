@@ -26,7 +26,7 @@ class Api extends CI_Controller
         $md5 = $this->shortUrl($last_id);
         $this->content_model->update($last_id, array('md5' => $md5));
 
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
+        $content_final = $this->content_model->getLastByWhere("BINARY md5 = '{$md5}'");
         $this->json($content_final);
     }
 
@@ -43,13 +43,13 @@ class Api extends CI_Controller
         unset($content['password']);
 
         // Verificando se existe conteudo buscado
-        $where = "md5='{$md5}'";
+        $where = "BINARY md5='{$md5}'";
         $content_exists = $this->content_model->getWhere($where);
         if(count($content_exists) == 0) $this->error('Not Found');
         $content_exists = end($content_exists);
 
         // Verificando se senha é válida
-        $where = "md5='{$md5}' AND password='{$password}'";
+        $where = "BINARY md5='{$md5}' AND password='{$password}'";
         $content_db = $this->content_model->getWhere($where);
         if(count($content_db) == 0) {
             $this->error('Password is wrog');
@@ -64,7 +64,7 @@ class Api extends CI_Controller
 
         $this->content_model->insert($content);
 
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$content['md5']}'");
+        $content_final = $this->content_model->getLastByWhere("BINARY md5 = '{$content['md5']}'");
         $this->json($content_final);
     }
 
@@ -92,13 +92,13 @@ class Api extends CI_Controller
         $md5 = $this->shortUrl($last_id);
         $this->content_model->update($last_id, array('md5' => $md5));
 
-        $content_final = $this->content_model->getLastByWhere("md5 = '{$md5}'");
+        $content_final = $this->content_model->getLastByWhere("BINARY md5 = '{$md5}'");
         $this->json($content_final);
     }
 
     public function get($md5, $datetime = false)
     {
-        $where = "md5 = '{$md5}'";
+        $where = "BINARY md5 = '{$md5}'";
         if($datetime) {
             $datetime = str_replace('%20', ' ', $datetime);
             $where .= " AND create_at like '%{$datetime}%'";
@@ -111,7 +111,7 @@ class Api extends CI_Controller
 
     public function log($md5)
     {
-        $where = "md5 = '{$md5}'";
+        $where = "BINARY md5 = '{$md5}'";
         $contents = $this->content_model->getWhere($where);
         if(count($contents) == 0) $this->error('Not Found');
 
