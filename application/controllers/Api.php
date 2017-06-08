@@ -13,10 +13,6 @@ class Api extends CI_Controller
     public function newp()
     {
         $content = $this->getRequest($this->input->post(), file_get_contents('php://input'));
-        if(empty($content)) {
-            $entityBody = file_get_contents('php://input');
-            parse_str($entityBody, $content);
-        }
 
         $content['id'] = null;
         $content['id_parent'] = null;
@@ -36,7 +32,6 @@ class Api extends CI_Controller
     public function edit()
     {
         $content = $this->getRequest($this->input->post(), file_get_contents('php://input'));
-        if(empty($content)) {
         $md5 = $content['md5'];
         unset($content['id_parent']);
 
