@@ -39,7 +39,7 @@ class Content_model extends CI_Model
     public function getChildren($where)
     {
         $this->db->where($where, NULL, FALSE);
-        $this->db->group_by('BINARY md5');
+        $this->db->group_by('BINARY md5', FALSE);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get($this->tableName);
         return $query->result_array();
